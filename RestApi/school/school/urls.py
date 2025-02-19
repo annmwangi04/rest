@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('student/', include('student.urls')),  # Ensure 'student' matches your app folder name
+    path('student/', include('student.urls')),
+    path('courses/', include('courses.urls')),
 ]
 
