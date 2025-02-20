@@ -6,6 +6,19 @@ from .serializers import StudentSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth import authenticate
+from knox.models import AuthToken
+
+class AuthenticationView(APIView):
+     permission_classes = [AllowAny]
+     def post(self, request, *args, **kwargs):
+         user = authenticate(username = request.data['username'],password = request.data['password'])
+         if user:
+             auth_token = AuthToken.objects.create(user)[1]
+             print (auth_token)
+             return Response({"token": auth_token}, status =200)
+         return Response({"Msg": "wrong_credentials"}, status =200) 
+         
 
 class StudentView(APIView):
     permission_classes = [AllowAny]

@@ -17,13 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from student.views import AuthenticationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/', include('student.urls')),
     path('courses/', include('courses.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    
-
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/', include('knox.urls')),
+    path('api/knox-login/', AuthenticationView.as_view(), name="knox-login"),  
 ]
+
 
