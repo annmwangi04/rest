@@ -25,15 +25,15 @@ class CourseView(APIView):
         serializer = CourseSerializer(course, data=request.data, partial=True)  
         if serializer.is_valid():  
             serializer.save()  
-            return Response(serializer.data, status=200)  # Fixed status code to 200 (OK)
+            return Response(serializer.data, status=200)
         
         return Response(serializer.errors, status=400)  
     
     def delete(self, request, *args, **kwargs):
-        course = Course.objects.filter(id=kwargs['id']).first()  # Fixed: Renamed 'Course' to lowercase 'course'
+        course = Course.objects.filter(id=kwargs['id']).first()
 
         if not course:
             return Response({"Error": "Course not found"}, status=404)
 
         course.delete()  
-        return Response({"message": "Course deleted successfully"}, status=200)  # Improved message
+        return Response({"message": "Course deleted successfully"}, status=200)

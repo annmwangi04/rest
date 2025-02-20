@@ -3,8 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Student
 from .serializers import StudentSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class StudentView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, *args, **kwargs):
         students = Student.objects.all()
         serializer = StudentSerializer(students, many=True) 
