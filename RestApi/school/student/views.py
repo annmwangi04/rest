@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Student
-from .serializers import StudentSerializer
+from .serializers import StudentSerializer,UserRegisterSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -19,6 +19,17 @@ class AuthenticationView(APIView):
              return Response({"token": auth_token}, status =200)
          return Response({"Msg": "wrong_credentials"}, status =200) 
          
+class UserregisterView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        serializer = UserRegisterSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400) 
+        
+
+
 
 class StudentView(APIView):
     permission_classes = [AllowAny]
